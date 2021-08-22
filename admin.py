@@ -49,6 +49,7 @@ def hasil():
     delimiter=" "
     graphname = ""
     if request.method == 'POST':
+        graph = request.form.get("graph")
         file = request.files['files']
         if file.filename != '':
             filename = secure_filename(file.filename)
@@ -340,13 +341,17 @@ def hasil():
         report5 = classification_report(hasilsvm,y_testing)
         # print('report SVM : ', report5)
         inkre = inkre+1
-    images = os.listdir(os.path.join(app.static_folder, "img/graph"))
-    images2 = os.listdir(os.path.join(app.static_folder, "img/graph_dataset"))
-    return render_template('prediksi.html',data=data,gbr=gbr,aq=akurasi, kf=kf, datanya=datanya, ab=akurasiBayes,
-                           adc=akurasiDC,arf=akurasiRF, asv=akurasiSVM, re=cfknn, re2=report2,preknn=preknn,f1knn=f1knn,
-                           re3=report3, re4=report4, re5=report5,dk=dk,images=images, reknn=reknn,gbr_2=gbr_2,images2=images2)
-                
+    if (graph):
 
+        images = os.listdir(os.path.join(app.static_folder, "img/graph"))
+        images2 = os.listdir(os.path.join(app.static_folder, "img/graph_dataset"))
+        return render_template('prediksi.html',data=data,gbr=gbr,aq=akurasi, kf=kf, datanya=datanya, ab=akurasiBayes,
+                                adc=akurasiDC,arf=akurasiRF, asv=akurasiSVM, re=cfknn, re2=report2,preknn=preknn,f1knn=f1knn,
+                                re3=report3, re4=report4, re5=report5,dk=dk,images=images, reknn=reknn,gbr_2=gbr_2,images2=images2)
+    else :
+         return render_template('prediksi.html',data=data,gbr=gbr,aq=akurasi, kf=kf, datanya=datanya, ab=akurasiBayes,
+                                adc=akurasiDC,arf=akurasiRF, asv=akurasiSVM, re=cfknn, re2=report2,preknn=preknn,f1knn=f1knn,
+                                re3=report3, re4=report4, re5=report5,dk=dk,images="", reknn=reknn,gbr_2=gbr_2,images2="")
 if __name__ == "__main__":
     app.run(debug=True, threaded=True)
 
