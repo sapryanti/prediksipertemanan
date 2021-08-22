@@ -46,25 +46,16 @@ def predict():
 
 @app.route('/hasil', methods=['GET','POST'])
 def hasil():
-    try:
-        if request.method == 'POST':
-            file = request.files['files']
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                os.rename(UPLOAD_FOLDER + filename, UPLOAD_FOLDER+'karate.csv')
-    except:
-        flash("Data sudah ada", "warning")
-        return redirect(request.referrer)
-    filename = 'static/csv/karate.csv'
     delimiter=" "
     graphname = ""
-
-    if os.path.isfile(filename) == True:
-        # Load data from tsv file: data
-        loaddataset = np.loadtxt(filename, delimiter=delimiter, dtype=int, encoding='cp1252')
-    else:
-        loaddataset = 'File does not exist'
+    if request.method == 'POST':
+        file = request.files['files']
+        if file.filename != '':
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            print("JSO BOSW", file_path)
+    loaddataset = np.loadtxt(file_path, delimiter=delimiter, dtype=int, encoding='cp1252')
     loaddataset = loaddataset[:, [0, 1]]
     data = loaddataset
 
@@ -168,13 +159,13 @@ def hasil():
                     knn=KNeighborsClassifier(n_neighbors=5)
                     knn.fit(x_training,y_training)
                     hasilknn = knn.predict(x_testing)
-                    print(hasilknn,y_testing)
+                    # print(hasilknn,y_testing)
                     datanya = "KNN"
                 elif request.form['pilih'] == 'naive':
                     ModelBayes = GaussianNB()
                     ModelBayes.fit(x_training, y_training)
                     hasilbayes = ModelBayes.predict(x_testing)
-                    print(hasilbayes,y_testing)
+                    # print(hasilbayes,y_testing)
                     datanya = "Naive Bayes"
                 elif request.form['pilih'] == 'RF':
                     ModelRF = RandomForestClassifier()
@@ -286,68 +277,68 @@ def hasil():
 
         isix = pd.merge(xtrain, xtest, left_on=['Degree'],
                     right_on=['Degree'])
-        print(isix)
+        # print(isix)
         
         isiy = pd.merge(ytrain, ytest, left_on=['Class_ytrain'],
                         right_on=['Class_ytest'])
-        print(isiy)
-        
-        print(hasilknn,y_testing)
+        # print(isiy)
+        # 3
+        # print(hasilknn,y_testing)
         akurasi.append(accuracy_score(hasilknn,y_testing))
 
-        print('akurasi KNN : ', akurasi)
+        # print('akurasi KNN : ', akurasi)
         report = classification_report(hasilknn,y_testing)
         # report = pd.DataFrame(classification_report(hasilknn, y_testing, output_dict=True)).transpose()
         cfknn.append(report)
-        print('report KNN : ', report)
+        # print('report KNN : ', report)
 
         recall = recall_score(hasilknn,y_testing)
         reknn.append(recall)
-        print('recall : ', recall)
+        # print('recall : ', recall)
         
         precision = precision_score(hasilknn, y_testing)
         preknn.append(precision)
-        print('precision :', precision)
+        # print('precision :', precision)
 
         f1 = f1_score(hasilknn, y_testing)
         f1knn.append(f1)
-        print('F1-Score :', f1)
+        # print('F1-Score :', f1)
         
         
-        print('==============')
+        # print('==============')
         
-        print(hasilbayes,y_testing)
+        # print(hasilbayes,y_testing)
         akurasiBayes.append(accuracy_score(hasilbayes,y_testing))
 
-        print('akurasi Bayes : ', akurasiBayes)
+        # print('akurasi Bayes : ', akurasiBayes)
         report2 = classification_report(hasilbayes,y_testing)
-        print('report Bayes : ', report2)
+        # print('report Bayes : ', report2)
         
-        print('==============')
+        # print('==============')
         
-        print(hasilDc,y_testing)
+        # print(hasilDc,y_testing)
         akurasiDC.append(accuracy_score(hasilDc,y_testing))
 
-        print('akurasi DC : ', akurasiDC)
+        # print('akurasi DC : ', akurasiDC)
         report3 = classification_report(hasilDc,y_testing)
-        print('report DC : ', report3)
+        # print('report DC : ', report3)
         
-        print('==============')
+        # print('==============')
         
-        print(hasilRF,y_testing)
+        # print(hasilRF,y_testing)
         akurasiRF.append(accuracy_score(hasilRF,y_testing))
 
-        print('akurasi RF : ', akurasiRF)
+        # print('akurasi RF : ', akurasiRF)
         report4 = classification_report(hasilRF,y_testing)
-        print('report RF : ', report4)
+        # print('report RF : ', report4)
         
-        print('==============')
+        # print('==============')
         
-        print(hasilsvm,y_testing)
+        # print(hasilsvm,y_testing)
 
-        print('akurasi SVM : ', akurasiSVM)
+        # print('akurasi SVM : ', akurasiSVM)
         report5 = classification_report(hasilsvm,y_testing)
-        print('report SVM : ', report5)
+        # print('report SVM : ', report5)
         inkre = inkre+1
     images = os.listdir(os.path.join(app.static_folder, "img/graph"))
     images2 = os.listdir(os.path.join(app.static_folder, "img/graph_dataset"))
