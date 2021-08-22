@@ -62,7 +62,7 @@ def hasil():
 
     if os.path.isfile(filename) == True:
         # Load data from tsv file: data
-        loaddataset = np.loadtxt(filename, delimiter=delimiter, dtype=int, encoding='mbcs')
+        loaddataset = np.loadtxt(filename, delimiter=delimiter, dtype=int, encoding='cp1252')
     else:
         loaddataset = 'File does not exist'
     loaddataset = loaddataset[:, [0, 1]]

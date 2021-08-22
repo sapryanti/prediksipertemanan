@@ -1,248 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Link Prediction | Prediksi</title>
-  <link rel="icon" type="image/x-icon" href="../static/assets/img/halaman/earth.png" />
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/adminlte.min.css') }}">
-  <link href="{{ url_for('static', filename='vendor1/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
-    type="text/css">
-  <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet">
-  <!-- Custom styles for this template-->
-  <!-- <link href="{{ url_for('static', filename='css2/sb-admin-2.min.css') }}" rel="stylesheet"> -->
-  <style>
-    #Loader {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      z-index: 99;
-      top: 0;
-      left: 0;
-      background: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    @keyframes fadeOut {
-      100% {
-        opacity: 0;
-        visibility: hidden;
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Link Prediction | Prediksi</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="../static/assets/img/halaman/earth.png"
+    />
+    <!-- Google Font: Source Sans Pro -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}"
+    />
+    <!-- Theme style -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='dist/css/adminlte.min.css') }}"
+    />
+    <link
+      href="{{ url_for('static', filename='vendor1/fontawesome-free/css/all.min.css') }}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
+    <!-- Custom styles for this template-->
+    <!-- <link href="{{ url_for('static', filename='css2/sb-admin-2.min.css') }}" rel="stylesheet"> -->
+    <style>
+      #Loader {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        left: 0;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
-    }
-  </style>
-</head>
 
-<body id="page-top">
+      @keyframes fadeOut {
+        100% {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+      html {
+        background-color: #f8f9fa !important;
+      }
+    </style>
+  </head>
 
-  <div id="wrapper">
-
+  <body claas="">
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
-
-      <!-- Sidebar - Brand -->
-      <!-- <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html"> -->
-        <!-- <div class="sidebar-brand-icon rotate-n-15"> -->
-          <!-- <i class="fa fa-home" aria-hidden="true"></i> -->
-        <!-- </div> -->
-        <!-- <div class="sidebar-brand-text mx-2">Home</div>
-      </a> -->
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Nav Item - Dashboard -->
-      <!-- <li class="nav-item active">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Home</span></a>
-      </li> -->
-
-      <!-- Divider -->
-      <!-- <hr class="sidebar-divider"> -->
-
-      <!-- Heading -->
-      <!-- <div class="sidebar-heading">
-          Pages
-      </div> -->
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <!-- <li class="nav-item">
-          <a class="nav-link " href="predik.html">
-               <a href="predik.html"></a> -->
-      <!-- <i class="fa fa-upload" aria-hidden="true"></i>
-              <span>Re-Upload</span>
-          </a> -->
-
-      <!-- </li>  -->
-
-      <!-- Nav Item - Utilities Collapse Menu -->
-      <!-- <li class="nav-item">
-          <a class="nav-link " href="predik.html"> -->
-      <!-- <a href="predik.html"></a> -->
-      <!-- <i class="fa fa-file" aria-hidden="true"></i>
-              <span>Result</span>
-          </a>
-
-          </a>
-      </li> -->
-
-      <!-- Divider -->
-      <!-- <hr class="sidebar-divider">
-
-     
-      </li> -->
-
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <!-- <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div> -->
-
-
-
-    </ul>
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div style="padding: 0px 30vw" class="bg-light">
       <!-- Content Header (Page header) -->
-      <section class="content-header">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <h2>Prediksi Pertemanan</h2>
-            </div>
-          </div>
-          {% with messages = get_flashed_messages() %}
-          {% if messages %}
-          {% for message in messages %}
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <section class="mt-3">
+        <div class="">
+          <h2>Prediksi Pertemanan</h2>
+          {% with messages = get_flashed_messages() %} {% if messages %} {% for
+          message in messages %}
+          <div
+            class="alert alert-warning alert-dismissible fade show"
+            role="alert"
+          >
             <strong>{{ message }} (data sudah ada).</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          {% endfor %}
-          {% endif %}
-          {% endwith %}
+          {% endfor %} {% endif %} {% endwith %}
         </div>
       </section>
       <div id="Loader" class="d-none">
         <div class="d-flex justify-content-center">
-          <div class="spinner-border text-success" style="width: 10rem; height: 10rem;" role="status">
+          <div
+            class="spinner-border text-success"
+            style="width: 10rem; height: 10rem"
+            role="status"
+          >
             <span class="sr-only">Loading...</span>
           </div>
         </div>
       </div>
-            <form action="/hasil" method="POST" enctype="multipart/form-data">
-              <!-- <div class="row"> -->
-                <div class="card card-body">
-                    <div class="form-group">
-                      <label for="exampleInputFile">Upload File</label>
-                      <div class="input-group">
-                        <div class="custom-file">
-                          <input type="file" class="custom-file-input" name="files">
-                          <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                        </div>
-                        <div class="input-group-append">
-                          <span class="input-group-text">Upload</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="">Create Graph</label>
-                      <br>
-                      <div class="form-check">
-                        <input type="checkbox" class="form-check-input checkbox-lg" id="exampleCheck1"
-                          name="creategraph">
-                        <!-- <label class="form-check-label" for="exampleCheck1"></label> -->
-                        <br>
-                      </div>
-                      <br>
-                      <div class="form-group">
-                        <label for="">Pilih Split Data </label>
-                        <div class="form-check">
-                          <div class="row">
-                            <div class="col">
-                              <input class="form-check-input" type="radio" name="split" value="5">
-                              <label class="form-check-label">5</label>
-                            </div>
-                            <div class="col-md-11">
-                              <input class="form-check-input" type="radio" name="split" value="10">
-                              <label class="form-check-label">10</label>
-                            </div>
-                          </div>
-                          <div>
-                          </div>
-                        </div>
-                        <br>
-                        <div class="form-group">
-                          <label for="">Pilih Metode Klasifikasi </label>
-                          <div class="form-group col-md-4">
-                            <select class="form-control" name="pilih" id="input_file" required>
-                              <option selected></option>
-                              <option Value="knn">KNN</option>
-                              <option Value="naive">Naive Bayes</option>
-                              <option Value="RF">RF</option>
-                              <option Value="SVM">SVM</option>
-                              <option Value="DC">DC</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- /.card-body -->
-                      <br />
-                      <div class="card-footer">
-                        <button type="submit" class="btn btn-primary btn-md" id="tombol" onclick="upload()">Hasil</button>
-                      </div>
-                </form>
-              
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
+      <form action="/hasil" method="POST" enctype="multipart/form-data">
+        <div class="card card-body">
+          <div class="form-group">
+            <label for="exampleInputFile">Upload File</label>
+            <div class="input-group" style="width: 100%">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" name="files" />
+                <label class="custom-file-label" for="exampleInputFile"
+                  >Choose file</label
+                >
+              </div>
+            </div>
+            <div class="custom-control custom-switch mt-3">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="customSwitch1"
+              />
+              <label class="custom-control-label" for="customSwitch1"
+                >Create Graph</label
+              >
+            </div>
+            <label class="mt-3" for="">Pilih Split Data </label>
+            <div class="form-check">
+              <div class="row">
+                <div class="col">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="split"
+                    value="5"
+                  />
+                  <label class="form-check-label">5</label>
+                </div>
+                <div class="col-md-11">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="split"
+                    value="10"
+                  />
+                  <label class="form-check-label">10</label>
+                </div>
+              </div>
+            </div>
+            <label class="mt-3" for="">Pilih Metode Klasifikasi </label>
+            <select class="custom-select" name="pilih" id="input_file" required>
+              <option selected></option>
+              <option value="knn">KNN</option>
+              <option value="naive">Naive Bayes</option>
+              <option value="RF">RF</option>
+              <option value="SVM">SVM</option>
+              <option value="DC">DC</option>
+            </select>
+            <div class="mt-4">
+              <button
+                type="submit"
+                class="btn btn-primary btn-md"
+                id="tombol"
+                onclick="upload()"
+              >
+                Hasil
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
 
-  <!-- jQuery -->
-  <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
-  <!-- Bootstrap 4 -->
-  <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <!-- bs-custom-file-input -->
-  <script src="{{ url_for('static', filename='plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
-  <!-- AdminLTE App -->
-  <script src="{{ url_for('static', filename='dist/js/adminlte.min.js') }}"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="{{ url_for('static', filename='dist/js/demo.js') }}"></script>
-  <!-- Page specific script -->
-  <script>
-    $(function () {
-      bsCustomFileInput.init();
-    });
-  </script>
-  <script>
-    var loader = document.getElementById("Loader");
-    var tombol = document.getElementById("tombol");
-    var input = document.getElementById("input_file");
+      <!-- Control sidebar content goes here -->
+      <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
 
-    function upload() {
-      if (input === "") {
-        alert("Pilih Metode");
-        return;
-      } else {
-        loader.classList.remove("d-none");
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- bs-custom-file-input -->
+    <script src="{{ url_for('static', filename='plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ url_for('static', filename='dist/js/adminlte.min.js') }}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{ url_for('static', filename='dist/js/demo.js') }}"></script>
+    <!-- Page specific script -->
+    <script>
+      $(function () {
+        bsCustomFileInput.init();
+      });
+    </script>
+    <script>
+      var loader = document.getElementById("Loader");
+      var tombol = document.getElementById("tombol");
+      var input = document.getElementById("input_file");
+
+      function upload() {
+        if (input === "") {
+          alert("Pilih Metode");
+          return;
+        } else {
+          loader.classList.remove("d-none");
+        }
       }
-    }
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

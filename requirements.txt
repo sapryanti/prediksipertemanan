@@ -1,0 +1,11 @@
+numpy
+pandas
+networkx
+matplotlib
+datetime
+openpyxl
+sklearn
+xlsxwriter
+flask
+werkzeug
+seaborn
